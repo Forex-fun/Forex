@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/prediction_market
+      - WEB3_PROVIDER_URI=http://ganache:8545
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+    depends_on:
+      - db
+      - ganache
+    volumes:
+      - ./models:/app/models
+      - ./logs:/app/logs
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prediction_market
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    command:
+      - --deterministic
+      - --mnemonic="test test test test test test test test test test test junk"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
