@@ -61,7 +61,6 @@ Forex is an intelligent market prediction platform that combines AI and blockcha
 
 1. Clone the repository
 ```bash
-git clone https://github.com/Forex-me/Forex.git
 cd forex
 ```
 
@@ -144,5 +143,5 @@ pytest tests/test_prediction_model.py
 
 ## Contact
 
- [Twitter](https://x.com/Forex_Credible)
+ [Twitter](https://x.com/Theforex_fun)
 
